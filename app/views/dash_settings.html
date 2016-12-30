@@ -1,0 +1,59 @@
+<div class="center-board">
+
+	<div id="sensor-data">
+		<h1> Settings </h1>
+
+		<form id="settings" method="post">
+			<div class="field">
+				<label>Enter the range of valid data for <b>Moisture sensor</b></label>
+				<div class="three">
+					<input type="number" value="0" name="sn1"style="width: 50%;float:left;">
+					<input type="number" value="0" name="sn1"style="width: 50%;float:left;">
+				</div>
+			</div>
+
+			<div class="field">
+				<label>Enter the range of valid data for <b>Humidity sensor</b></label>
+				<div class="three">
+					<input type="number" value="0" name="sn2"style="width: 50%;float:left;">
+					<input type="number" value="0" name="sn2"style="width: 50%;float:left;">
+				</div>
+			</div>
+			<div class="field">
+				<label>Enter the range of valid data for <b>Temperature sensor</b></label>
+				<div class="three">
+					<input type="number" value="0" name="sn3"style="width: 50%;float:left;">
+					<input type="number" value="0" name="sn3"style="width: 50%;float:left;">
+				</div>
+			</div>
+
+			<button type="submit" style="width: 33.33%;float:left;background: #1abc9c;color: #fff"> Save </button>
+
+		</form>
+		
+	</div>
+
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
+<script type="text/javascript">
+
+$("#settings").on("submit",function(e){
+	e.preventDefault();
+	$.ajax({
+		type : "POST",
+		url : "/settings/post",
+		data : $("#settings").serialize(),
+		success : function(e){
+			console.log(e);
+			alert(e);
+		},
+		error : function(e){
+			console.log(e);
+		}
+	})
+	// $.post( "/settings/post", $( "#settings" ).serialize() );
+})
+	
+</script>

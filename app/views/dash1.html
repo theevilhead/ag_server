@@ -1,0 +1,109 @@
+<div class="board">
+
+	<div id="sensor-data">
+		<h1 id="title"> Today's sensor data</h1>
+		<form action="" method="get" id="dtp">
+			<div class="field" style="display: inline-block;width: 100%">
+				<label>Pick a date</label>
+				<input type="text" name="dt" id="datepicker" style="float: left;width: 250px;padding: 10px">
+				<button type="submit" style="float: left;width: 100px">Submit</button>
+			</div>
+		</form>
+		<table>
+		    <thead>
+		        <tr>
+		            <th>No</th>
+		            <th>Humidity</th>
+		            <th>Temperature</th>
+		            <th>Moisture</th>
+		            <th>Status</th>
+		        </tr>
+		    </thead>
+		    <tbody id="data_body">
+		        <!-- <tr>
+		            <td>1</td>
+		            <td>23</td>
+		            <td>65</td>
+		            <td>Jockey</td>
+		            <td><span class="red"></span></td>
+		        </tr> -->
+		        
+		    </tbody>
+		</table>
+
+
+	</div>
+<!-- 
+	<div id="sidebar">
+		<div id="overall-status">
+			<h1>Overall status</h1>
+		</div>
+	</div> -->
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/jquery-ui.min.js"></script>
+<script type="text/javascript">
+
+	  $( function() {
+	    $( "#datepicker" ).datepicker({
+	    	dateFormat : 'dd-mm-yy'
+	    });
+	  } );
+
+	function calculate_status(s1,s2,s3,r){
+		return ((parseInt(s1)+parseInt(s2)+parseInt(s3))/3);
+	} 
+
+
+	function table_it(d , r){
+		r = JSON.parse(r);
+		$("#data_body").html("");
+		$.each(d,function(key,val){
+					var html = "";
+					jval = JSON.parse(val.sdata);
+					html="<tr>";
+					html+="<td>"+(key+1)+"</td>";
+					html+="<td>"+jval.sensor_1+"</td>";
+					html+="<td>"+jval.sensor_2+"</td>";
+					html+="<td>"+jval.sensor_3+"</td>";
+					html+="<td>"+calculate_status(jval.sensor_1,jval.sensor_2,jval.sensor_3,r)+"</td>";
+					html+="</tr>";
+					$("#data_body").append(html);
+				})
+	}
+	function get_data(u){
+		 _url = (u!=undefined)? u : "/dashboard/sensor_data";
+		$.ajax({
+			url : _url,
+			success : function(d){
+				console.log(d);
+				if(d.error !=undefined){
+					$("#data_body").html('<div class="pad">'+d.error+'</div>');
+				}else{
+					table_it(d.data,d.range[0].safe_range);
+				}
+			},
+			error : function(d){
+				alert("Plese check your internet connection")
+			}
+		})
+	}
+
+	$(window).ready(function(){
+		get_data();
+	})
+
+	$("#dtp").on("submit",function(e){
+		e.preventDefault();
+		var ul = "/dashboard/sensor_data";
+		if($("#datepicker").val() != ""){
+			val = $("#datepicker").val().replace(/\//g,"-");
+			ul = ul+"?dt="+val;
+		}
+		get_data(ul);
+	})
+	
+</script>

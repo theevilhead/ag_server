@@ -1,0 +1,17 @@
+{
+  "name": "agritechnew",
+  "version": "1.1.2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Akshay",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "forever": "^0.15.3"
+  },
+  "description": "agritechnology"
+}

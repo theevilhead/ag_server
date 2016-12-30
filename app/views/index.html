@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Dashboard : Agritech</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+</head>
+<body>
+
+
+<div id="main-section" style="background:url('/images/agri.jpeg');background-size: cover;background-repeat:no-repeat;background-position: 75%">
+	<!-- 
+		<div id="header" class="main-header" style="background:rgba(0,0,0,.1);border-bottom: 1px solid rgba(0,0,0,.2)">
+			<div class="header-wrap max-wrap">
+				<a href="" class="logo">AG</a>
+				<div class="nav">
+					<ul>
+						<li><a href="">Home</a></li>
+						<li><a href="">Account</a></li>
+					</ul>
+				</div>
+			</div>
+		</div> -->
+
+	<div class="section-wrap">
+
+		<a href="" id="main-logo">
+			<img src="/images/logo.png">
+		</a>
+		
+	</div>
+
+</div>
+
+<div id="container">
+	<div class="container-wrap">
+		<div id="banner">
+			<div class="banner-nav">
+				<!-- <a href="">Home</a> -->
+				<a href="#" id="nav-link">Signup</a>
+				<a href="">About</a>
+			</div>
+			<div class="banner-wrap">
+
+				<h2><center>Login to access your sensor data</center></h2>
+				<hr>
+				<form id="login" action="" method="post">
+					<div class="field">
+						<label>Enter your phone number</label>
+						<input type="text" name="pn" placeholder="xxxxxxxxxx">
+					</div>
+					<div class="field">
+						<label>Enter your password</label>
+						<input type="password" name="ps" placeholder="********">
+					</div>
+					<div class="field">
+						<button type="submit" class="sub"> Login </button>
+					</div>
+					<div id="signup-error">
+					</div>
+				</form>
+ 
+				<!-- <hr>
+				Signup
+				<form id="signup" action="" method="post">
+					
+					<div class="field">
+						<label>Username</label>
+						<input type="text" name="un" placeholder="Akshay">
+					</div>
+					<div class="field">
+						<label>Enter your phone number</label>
+						<input type="text" name="pn" placeholder="9999999999">
+					</div>
+					<div class="field">
+						<label>Enter your password</label>
+						<input type="password" name="ps" placeholder="********">
+					</div>
+					<div class="field">
+						<label>Enter your location</label>
+						<input type="text" name="loc" placeholder="Hubballi">
+					</div>
+					<div class="field">
+						<button type="submit" class="sub"> Signup </button>
+					</div>
+					<div id="login-error">
+					</div>
+				</form> -->
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
+<script type="text/javascript">
+
+	$("#signup").on("submit",function(e){
+		e.preventDefault();
+		$.ajax({
+			url : "http://localhost:3001/a/s",
+			type : "POST",
+			data : $("#signup").serialize(),
+			success : function(d){
+				if(res.redirect){
+					document.location.href = res.redirect;
+				}
+			},
+			error : function(d){
+				console.log(d);
+			}
+		})
+	})
+
+
+	$("#login").on("submit",function(e){
+		e.preventDefault();
+		$.ajax({
+			url : "http://localhost:3001/a/l",
+			type : "POST",
+			data : $("#login").serialize(),
+			success : function(res){
+				if(res.redirect){
+					window.location.href = res.redirect;
+				}
+			},
+			error : function(res){
+				alert("Errror logging in ");
+				window.location.href="/";
+				console.log(res);
+			}
+		})
+	})
+
+
+	
+</script>
+
+
+
+</body>
+</html>

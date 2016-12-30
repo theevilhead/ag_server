@@ -1,0 +1,176 @@
+<div class="full-board" style="width: 100%;">
+
+	<div class="charts">
+		
+		<div class="big-chart">
+
+			<div class="chart-main" style="display: none">
+        <small>All values are average of each days sensor data</small>
+		      <h2> All sensor data </h2>
+			  <canvas id="chart-main"></canvas>
+			</div>
+
+			<div class="m-chart chart-main">
+		      <h2> Humidity Sensor data </h2>
+			  <canvas id="chart-sensor1"></canvas>
+			</div>
+
+			<div class="m-chart chart-main">
+		      <h2> Temperature sensor data </h2>
+			  <canvas id="chart-sensor2"></canvas>
+			</div>
+
+
+			<div class="m-chart chart-main">
+		      <h2> Moisture sensor data </h2>
+			  <canvas id="chart-sensor3"></canvas>
+			</div>
+
+		</div>
+	
+	</div>
+
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script>
+<script type="text/javascript">
+
+var canvas = document.querySelector('canvas');
+fitToContainer(canvas);
+
+function fitToContainer(canvas){
+  // Make it visually fill the positioned parent
+  canvas.style.width ='500px';
+  canvas.style.height='200px';
+  // ...then set the internal size to match
+  canvas.width  = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+}
+
+var options = {
+  scaleOverlay : false,
+  scaleOverride : false,
+  scaleSteps : null,
+  scaleStepWidth : null,
+  scaleStartValue : null,
+  scaleLineColor : "rgba(0,0,0,1)",
+  scaleLineWidth : 1,
+  scaleShowLabels : true,
+  scaleLabel : "<%=value%>",
+  scaleFontFamily : "'Arial'",
+  scaleFontSize : 12,
+  scaleFontStyle : "normal",
+  scaleFontColor : "#666",	
+  scaleShowGridLines : true,
+  scaleGridLineColor : "rgba(0,0,0,.05)",
+  scaleGridLineWidth : 1,	
+  //Boolean - If there is a stroke on each bar	
+  barShowStroke : true,
+  barStrokeWidth : 0,
+  //Number - Spacing between each of the X value sets
+  barValueSpacing : 8,
+  //Number - Spacing between data sets within X values
+  barDatasetSpacing : 0,
+  //Boolean - Whether to animate the chart
+  animation : true,
+  //Number - Number of animation steps
+  animationSteps : 60,
+  //String - Animation easing effect
+  animationEasing : "easeOutQuart",
+  //Function - Fires when the animation is complete
+  onAnimationComplete : null
+}
+
+
+var mainData = {
+  // labels : ["First","Second","Third","Fourth"],
+  labels : [1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+  datasets : [
+    {
+      fillColor : "rgba(220,220,220,0.5)",
+      strokeColor : "rgba(23,53,67,1)",
+      data : [65,59,90,81,56,55,40,65,59,90,81,56,55,40,-20,30,65,59,90,81,56,55,40,65,59,90,81,56,55,40,-20,30]
+    }
+  ]
+};
+
+var sensorData_1 = {
+  labels : ["First","Second","Third","Fourth"],
+  datasets : [
+    {
+      fillColor : "rgba(220,220,220,0.5)",
+      strokeColor : "rgba(23,53,67,1)",
+      data : [65,59,90,81,56,55,40,65,59,90,81,56,55,40,-20,30]
+    }
+  ]
+};
+
+var sensorData_2 = {
+  labels : ["First","Second","Third","Fourth"],
+  datasets : [
+    {
+      fillColor : "rgba(220,220,220,0.5)",
+      strokeColor : "rgba(23,53,67,1)",
+      data : [65,59,90,81,56,55,40,65,59,90,81,56,55,40,-20,30]
+    }
+  ]
+};
+
+var sensorData_3 = {
+  labels : ["First","Second","Third","Fourth"],
+  datasets : [
+    {
+      fillColor : "rgba(220,220,220,0.5)",
+      strokeColor : "rgba(23,53,67,1)",
+      data : [65,59,90,81,56,55,40,65,59,90,81,56,55,40,-20,30]
+    }
+  ]
+};
+
+
+var sensor_1=[],sensor_2=[],sensor_3=[];
+
+
+var handleStats = function(data){
+
+  $.each(data,function(key,val){
+    temp = val.sdata.split(',');
+    sensor_1.push(temp[0]);
+    sensor_2.push(temp[1]);
+    sensor_3.push(temp[2]);
+
+  })
+
+    console.log(sensor_1.length,sensor_2.length,sensor_3.length);
+
+}
+
+$.ajax({
+  url : "/sensor/getdata",
+  success : handleStats,
+  error : function(err){
+    console.log(err);
+  }
+})
+
+
+
+
+
+//Get context .
+var ctx = $("#chart-main").get(0).getContext("2d");
+var mainChart = new Chart(ctx).Bar(mainData, options);
+var ctx = $("#chart-sensor1").get(0).getContext("2d");
+var sensorChart_1 = new Chart(ctx).Bar(sensorData_1,options);
+var ctx = $("#chart-sensor2").get(0).getContext("2d");
+var sensorChart_2 = new Chart(ctx).Bar(sensorData_2,options);
+var ctx = $("#chart-sensor3").get(0).getContext("2d");
+var sensorChart_3 = new Chart(ctx).Bar(sensorData_3,options);
+
+
+
+	
+</script>
