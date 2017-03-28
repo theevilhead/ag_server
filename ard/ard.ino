@@ -2,17 +2,18 @@
 #include <Ethernet.h>
 
 byte mac[] = {
-  0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+  0x48, 0xE2, 0x44, 0xA0, 0x71, 0x2B };
  
 // Enter the IP address for Arduino, as mentioned we will use 192.168.0.16
 // Be careful to use , insetead of . when you enter the address here
-IPAddress ip(127,0,0,1);
+//IPAddress ip(139,59,37,187);
+IPAddress ip(139,59,37,187);
 
 
 String data;
 
-char server[] = "127.0.0.1"; // IMPORTANT: If you are using XAMPP you will have to find out the IP address of your computer and put it here (it is explained in previous article). If you have a web page, enter its address (ie. "www.yourwebpage.com")
-
+char server[] = "139.59.37.187"; // IMPORTANT: If you are using XAMPP you will have to find out the IP address of your computer and put it here (it is explained in previous article). If you have a web page, enter its address (ie. "www.yourwebpage.com")
+//http://139.59.37.187:3001/
 // Initialize the Ethernet server library
 EthernetClient client;
 
@@ -42,18 +43,18 @@ void loop()
   if (client.connect(server,3001)) 
   {  
       Serial.println("--> connected\n");
-      client.print("GET http://localhost:3001/sensor?s1="); // This
+      client.print("GET http://139.59.37.187:3001/sensor?s1="); // This
       client.print(s1);
       client.print("&s2=");
       client.print(s2); // And this is what we did in the testing section above. We are making a GET request just like we would from our browser but now with live data from the sensor
       client.print("&s3=");
       client.print(s3);
-    client.println(" HTTP/1.1"); // Part of the GET request
-    client.println("Host: 192.168.137.1:82"); // IMPORTANT: If you are using XAMPP you will have to find out the IP address of your computer and put it here (it is explained in previous article). If you have a web page, enter its address (ie.Host: "www.yourwebpage.com")
-    client.println("Connection: close"); // Part of the GET request telling the server that we are over transmitting the message
-    client.println(); // Empty line
-    client.println(); // Empty line
-    client.stop();    // Closing connection to server
+      client.println("HTTP/1.1"); // Part of the GET request
+      client.println("Host: 139.59.37.187:3001"); // IMPORTANT: If you are using XAMPP you will have to find out the IP address of your computer and put it here (it is explained in previous article). If you have a web page, enter its address (ie.Host: "www.yourwebpage.com")
+      client.println("Connection: close"); // Part of the GET request telling the server that we are over transmitting the message
+      client.println(); // Empty line
+      client.println(); // Empty line
+      client.stop();    // Closing connection to server 
   }
   else
   {

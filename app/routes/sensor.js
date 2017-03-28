@@ -100,7 +100,7 @@ router.get('/', function(req, res, next) {
 					}else{
 						console.log(result);
 						d = new Date();
-						if(d.getHours() === 10){
+						if(d.getHours() === 11){
 							send_sms("7406097947","Hello there!!, Its safe");
 							// res.send("7406097947"+"Good evening, The status is "+get_daily_status());
 						}
